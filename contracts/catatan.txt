@@ -1,0 +1,61 @@
+- SPDX-License-Identifier: MIT
+
+- definisikan dulu versi solidity yang ingin digunakan, karena bahasa solidity selalu update dan selalu berubah
+pragma solidity ^0.8.8; // harus ada semicolon
+pragma solidity ^0.8.7; // artinya : boleh v0.8.7 keatas
+pragma solidity >=0.8.7 < 0.9.0 // artinya: lebih dari sama dengan v0.8.7 tapi kurang dari v0.9.0
+
+- membuat contract, contract = class di js
+- contoh contract
+contract SimpleStorage {
+    - tipe data solidity
+    bool hasFavoriteNumber = false; // true or false
+    uint256 favoriteNumber = 5; // 0 - 255 (bilangan positif saja)
+    int256 favoriteInt = -5; // -128 - 127 (bilangan positif dan negatif)
+    string favoriteNumberInText ="Five"; // kalimat
+    address myAddress = 0x7c73d9eD23DDAd6353034F371aCa808b8a58744E; // alamat metamask/public key
+    bytes32 favoriteBytes = "cat"; //0x334rcxx
+
+    - ini sifatnya private
+    uint256 favoriteNumber;
+    - harus ditambahkan public untuk bisa melihat favoriteNumber
+    uint public favoriteNumber;
+
+    - mapping untuk membuat key : value
+    mapping(string => uint256) public nameToFavoriteNumber;
+
+    - ini untuk manggil object nya
+    People public person  = People({favoriteNumber: 2, name: "rany"});
+
+    - ini kaya bikin object, tapi disini People menjadi new type
+    struct People {
+        uint256 favoriteNumber;
+        string name;
+    }
+
+    - ini array
+    People[] public people;
+
+    - ini function yg bersifat public sehingga bisa menginputkan data
+    function store(uint256 _favoriteNumber) public {
+        favoriteNumber = _favoriteNumber;
+    }
+
+    - view dan pure tidak menggunakan gas
+    - view hanya bisa membaca state, tidak bisa mengupdate state
+    function retrieve() public view returns (uint256){
+        return favoriteNumber;
+    }
+    - pure tidak bisa membaca dan mengupdate state, hanya bisa melakukan algoritma yg tidak membutuhkan state untuk dibaca
+    function add() public pure returns (uint256){
+        return(1 + 1);
+    }
+    - function add person ke dalam array
+    function addPerson(string memory _name, uint256 _favoriteNumber) public {
+        people.push(People(_favoriteNumber, _name));
+        // or
+        // People memory newPerson = People({favoriteNumber: _favoriteNumber, name: _name});
+        // people.push(newPerson);
+        nameToFavoriteNumber[_name] = _favoriteNumber;
+    }
+}
