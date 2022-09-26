@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.8; // harus ada semicolon
+pragma solidity ^0.8.7; // harus ada semicolon
 
 contract SimpleStorage {
     // ini isinya = 0
